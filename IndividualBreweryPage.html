@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Details</title>
+</head>
+
+<body>
+
+    <div class="nav">
+        <a href="./HomePage.html">Home Page</a>
+        <a href="./SearchPage.html">Search Page</a>
+    </div>
+    <div id="container">
+
+    </div>
+
+</body>
+<script>
+    const container = document.getElementById("container");
+    let currId = JSON.parse(localStorage.getItem("current"))
+    console.log(currId)
+
+    let url = `https://api.openbrewerydb.org/breweries/${currId}`;
+
+    async function fetchBrewerydata() {
+
+        try {
+
+            let res = await fetch(url);
+            let data = await res.json();
+
+            console.log(data);
+            display(data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    fetchBrewerydata();
+
+    // "id": "madtree-brewing-cincinnati",
+    //     "name": "MadTree Brewing",
+    //     "brewery_type": "regional",
+    //     "street": "3301 Madison Rd",
+    //     "address_2": null,
+    //     "address_3": null,
+    //     "city": "Cincinnati",
+    //     "state": "Ohio",
+    //     "county_province": null,
+    //     "postal_code": "45209-1132",
+    //     "country": "United States",
+    //     "longitude": "-84.4239715",
+    //     "latitude": "39.1563725",
+    //     "phone": "5138368733",
+    //     "website_url": "http://www.madtreebrewing.com",
+    //     "updated_at": "2021-10-23T02:24:55.243Z",
+    //     "created_at": "2021-10-23T02:24:55.243Z"
+
+    function display(brewery) {
+
+
+        let breweryTile = document.createElement("div");
+
+        let name = document.createElement("p");
+        name.textContent = "Name :" + brewery.name;
+
+        let type = document.createElement("p");
+        type.textContent = "Type : " + brewery.brewery_type;
+
+        let city = document.createElement("p");
+        city.textContent = "City : " + brewery.city;
+
+        let state = document.createElement("p");
+        state.textContent = "State : " + brewery.state;
+
+        let street = document.createElement("p");
+        street.textContent = "Street :" + brewery.street;
+
+        let postal_code = document.createElement("p");
+        postal_code.textContent = "Postal Code : " + brewery.postal_code;
+
+        let country = document.createElement("p");
+        country.textContent = "Country : " + brewery.country;
+
+        let longitude = document.createElement("p");
+        longitude.textContent = "Longitude : " + brewery.longitude;
+
+        let latitude = document.createElement("p");
+        latitude.textContent = "Latitude : " + brewery.latitude;
+
+        let phone = document.createElement("p");
+        phone.textContent = "Phone :" + brewery.phone;
+
+        let website_url = document.createElement("p");
+        website_url.textContent = "Website : " + brewery.website_url;
+
+        let updated_at = document.createElement("p");
+        updated_at.textContent = "Updated At : " + brewery.updated_at;
+
+        let created_at = document.createElement("p");
+        created_at.textContent = "Created At : " + brewery.created_at;
+
+        breweryTile.append(name, type, city, state, street, postal_code, country, longitude, latitude, phone, website_url, updated_at, created_at);
+        container.append(breweryTile);
+
+    }
+</script>
+
+</html>

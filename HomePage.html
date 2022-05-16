@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewery Info | Home Page</title>
+</head>
+<style>
+    #container>div {
+        display: flex;
+        border: 1px solid grey;
+    }
+</style>
+
+<body>
+    <div class="nav">
+        <a href="./HomePage.html">Home Page</a>
+        <a href="./SearchPage.html">Search Page</a>
+    </div>
+    <div class="selectByType">
+        <select id="">
+            <option value="none" selected hidden disabled>Search By Type</option>
+            <option value="micro">Micro</option>
+            <option value="nano">Nano</option>
+            <option value="regional">Regional</option>
+            <option value="brewpub">Brewpub</option>
+            <option value="large">Large</option>
+            <option value="planning">Planning</option>
+            <option value="bar">Bar</option>
+            <option value="contract">Contract</option>
+            <option value="proprietor">Proprietor</option>
+            <option value="closed">Closed</option>
+        </select>
+    </div>
+    <div id="container">
+
+    </div>
+</body>
+<script>
+    const container = document.getElementById("container");
+
+    let url = "https://api.openbrewerydb.org/breweries";
+
+    async function fetchBrewerydata() {
+
+        try {
+
+            let res = await fetch(url);
+            let data = await res.json();
+
+            console.log(data);
+            display(data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    fetchBrewerydata();
+
+    function display(data) {
+
+        data.forEach(function(brewery) {
+
+            let breweryTile = document.createElement("div");
+
+            let name = document.createElement("p");
+            name.textContent = "Name :" + brewery.name;
+
+            let type = document.createElement("p");
+            type.textContent = "Type : " + brewery.brewery_type;
+
+            let city = document.createElement("p");
+            city.textContent = "City : " + brewery.city;
+
+            let state = document.createElement("p");
+            state.textContent = "State : " + brewery.state;
+
+            let detailBtn = document.createElement("button");
+            detailBtn.innerHTML = "More details";
+
+            let currid = brewery.id;
+            detailBtn.onclick = function showDetails() {
+                localStorage.setItem("current", JSON.stringify(currid));
+
+                window.location.href = "./IndividualBreweryPage.html"
+            }
+
+            breweryTile.append(name, type, city, state, detailBtn);
+            container.append(breweryTile);
+
+        })
+
+
+    }
+</script>
+
+</html>
